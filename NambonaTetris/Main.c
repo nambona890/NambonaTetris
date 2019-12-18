@@ -1,16 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <SDL.h>
-#include <stdbool.h>
-#include <math.h>
-
 #include <Main.h>
 
 
 int main(int argc, char **argv)
 {
 	SDL_Init(SDL_INIT_VIDEO);
-	SDL_Window* window = SDL_CreateWindow("SDL in C", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOWEVENT);
+	SDL_Window* window = SDL_CreateWindow("Nambona's Tetris", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOWEVENT);
 	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	bool running = true;
 	SDL_Event event;
