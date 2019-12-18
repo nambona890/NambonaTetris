@@ -1,17 +1,14 @@
 #include <Piece.h>
-#include <Main.h>
-
-static float fallTimer = 0;
-static float fallWait = 0.5;
 
 int PieceInit()
 {
 	time_t t;
-	srand((unsigned)t);
+	srand((unsigned)time(&t));
 	nextPiece = rand() % 7;
+	PieceDrop();
 }
 
-int DropPiece()
+int PieceDrop()
 {
 	currentPiece = nextPiece;
 	nextPiece = rand() % 7;
@@ -60,12 +57,12 @@ int PieceWait()
 
 			if (blockGrid[curY+1][curX]!=PIECE_NONE||curY>18)
 			{
-				goto PieceWait_For_Break;
+				goto PieceWait_For_Break1;
 			}
 		}
 		pieceY++;
 		goto PieceWait_If_Break;
-		PieceWait_For_Break:
+		PieceWait_For_Break1:
 		for (int i = 0; i < 4; i++)
 		{
 			char curX = *currentPiecePtr[pieceRotation][i][0] + pieceX;
@@ -73,8 +70,38 @@ int PieceWait()
 
 			blockGrid[curY][curX] = currentPiece;
 		}
+		for (int i = 0; i < 20; i++)
+		{
+			bool clear = true;
+			for (int j = 0; j < 10; j++)
+			{
+				if (blockGrid[i][j] == PIECE_NONE)
+				{
+					clear = false;
+				}
+			}
+			if (clear)
+			{
+				for (int j = 0; j < 10; j++)
+				{
+					blockGrid[0][j] = PIECE_NONE;
+				}
+				if (i > 0)
+				{
+					for (int j = i; j >= 0; j++)
+					{
+						for (int k = 0; k < 10; k++)
+						{
+							blockGrid[j][k] = blockGrid[j - 1][k];
+						}
+					}
+				}
+			}
+			PieceDrop();
+		}
 	}
 	PieceWait_If_Break:
+	return;
 }
 
 int PieceRotate(bool cw)
@@ -130,7 +157,7 @@ int PieceRotate(bool cw)
 	{
 		return;
 	}
-
+	fail = false;
 	for (int i = 0; i < 4; i++)
 	{
 		for (int j = 0; j < 4; j++)
@@ -156,7 +183,7 @@ int PieceRotate(bool cw)
 	{
 		return;
 	}
-
+	fail = false;
 	for (int i = 0; i < 4; i++)
 	{
 		for (int j = 0; j < 4; j++)
@@ -182,7 +209,7 @@ int PieceRotate(bool cw)
 	{
 		return;
 	}
-
+	fail = false;
 	for (int i = 0; i < 4; i++)
 	{
 		for (int j = 0; j < 4; j++)
@@ -210,6 +237,103 @@ int PieceRotate(bool cw)
 	}
 
 	pieceRotation = pieceRotationTemp;
+	pieceX = pieceXTemp;
+	pieceY = pieceYTemp;
+}
+
+int PieceMove(bool dir)
+{
+	bool fail = false;
+	char pieceXTemp = pieceX;
+	char pieceYTemp = pieceY;
+
+	if (dir)
+	{
+		pieceX++;
+	}
+	else
+	{
+		pieceX--;
+	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			char curX = *currentPiecePtr[pieceRotation][j][0] + pieceX;
+			char curY = *currentPiecePtr[pieceRotation][j][1] + pieceY;
+			if (blockGrid[curY][curX] != PIECE_NONE || pieceX < 0)
+			{
+				pieceX++;
+			}
+		}
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		char curX = *currentPiecePtr[pieceRotation][i][0] + pieceX;
+		char curY = *currentPiecePtr[pieceRotation][i][1] + pieceY;
+		if (blockGrid[curY][curX] != PIECE_NONE || pieceX < 0)
+		{
+			fail = true;
+		}
+	}
+	if (!fail)
+	{
+		return;
+	}
+	fail = false;
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			char curX = *currentPiecePtr[pieceRotation][j][0] + pieceX;
+			char curY = *currentPiecePtr[pieceRotation][j][1] + pieceY;
+			if (blockGrid[curY][curX] != PIECE_NONE || pieceX > 9)
+			{
+				pieceX--;
+			}
+		}
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		char curX = *currentPiecePtr[pieceRotation][i][0] + pieceX;
+		char curY = *currentPiecePtr[pieceRotation][i][1] + pieceY;
+		if (blockGrid[curY][curX] != PIECE_NONE || pieceX > 9)
+		{
+			fail = true;
+		}
+	}
+	if (!fail)
+	{
+		return;
+	}
+	fail = false;
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			char curX = *currentPiecePtr[pieceRotation][j][0] + pieceX;
+			char curY = *currentPiecePtr[pieceRotation][j][1] + pieceY;
+			if (blockGrid[curY][curX] != PIECE_NONE)
+			{
+				pieceY++;
+			}
+		}
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		char curX = *currentPiecePtr[pieceRotation][i][0] + pieceX;
+		char curY = *currentPiecePtr[pieceRotation][i][1] + pieceY;
+		if (blockGrid[curY][curX] != PIECE_NONE)
+		{
+			fail = true;
+		}
+	}
+	if (!fail)
+	{
+		return;
+	}
+
 	pieceX = pieceXTemp;
 	pieceY = pieceYTemp;
 }
