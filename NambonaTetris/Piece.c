@@ -58,7 +58,7 @@ int PieceWait()
 			char curX = *currentPiecePtr[pieceRotation][i][0]+pieceX;
 			char curY = *currentPiecePtr[pieceRotation][i][1]+pieceY;
 
-			if (blockGrid[curX][curY+1]!=PIECE_NONE||curY==0)
+			if (blockGrid[curY+1][curX]!=PIECE_NONE||curY==19)
 			{
 				goto PieceWait_For_Break;
 			}
@@ -71,7 +71,7 @@ int PieceWait()
 			char curX = *currentPiecePtr[pieceRotation][i][0] + pieceX;
 			char curY = *currentPiecePtr[pieceRotation][i][1] + pieceY;
 
-			blockGrid[curX][curY] = currentPiece;
+			blockGrid[curY][curX] = currentPiece;
 		}
 	}
 	PieceWait_If_Break:

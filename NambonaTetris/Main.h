@@ -25,7 +25,8 @@ static char pieceRotation;
 static char pieceX;
 static char pieceY;
 
-static char blockGrid[20][10] = {
+static char blockGrid[21][10] = {
+	{0,0,0,0,0,0,0,0,0,0},
 	{0,0,0,0,0,0,0,0,0,0},
 	{0,0,0,0,0,0,0,0,0,0},
 	{0,0,0,0,0,0,0,0,0,0},
