@@ -138,14 +138,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.c" />
-    <ClCompile Include="Piece.c" />
-    <ClCompile Include="Screen.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Global.h" />
     <ClInclude Include="Main.h" />
-    <ClInclude Include="Piece.h" />
-    <ClInclude Include="Screen.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Images\Piece.png" />
