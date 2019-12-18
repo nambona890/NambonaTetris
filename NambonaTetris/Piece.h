@@ -1,15 +1,15 @@
 #include <Global.h>
 #pragma once
 
-static float fallTimer = 0;
-static float fallWait = 0.5;
+float fallTimer = 0;
+float fallWait = 0.5;
 
-int PieceInit();
+extern int PieceInit();
 
 int PieceDrop();
 
-int PieceWait();
+extern int PieceWait();
 
-int PieceRotate(bool cw);
+extern int PieceRotate(bool cw);
 
-int PieceMove(bool dir);
+extern int PieceMove(bool dir);

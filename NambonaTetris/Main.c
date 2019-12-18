@@ -1,6 +1,12 @@
 #include <Main.h>
-#include "Piece.c"
-#include "Screen.c"
+
+SDL_Event event;
+char nextPiece;
+char currentPiece;
+char(*currentPiecePtr)[4][4][2];
+char pieceRotation;
+char pieceX;
+char pieceY;
 
 int main(int argc, char **argv)
 {

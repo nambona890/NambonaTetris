@@ -1,4 +1,10 @@
 #include <Piece.h>
+char currentPiece;
+char(*currentPiecePtr)[4][4][2];
+char nextPiece;
+char pieceRotation;
+char pieceX;
+char pieceY;
 
 int PieceInit()
 {

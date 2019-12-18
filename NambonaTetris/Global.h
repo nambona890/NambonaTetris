@@ -98,7 +98,7 @@ extern const char iPiece[4][4][2] =
 	}
 };
 
-extern const int sPiece[4][4][2] =
+extern const char sPiece[4][4][2] =
 {
 	{
 		{-1,1},
@@ -126,7 +126,7 @@ extern const int sPiece[4][4][2] =
 	}
 };
 
-extern const int jPiece[4][4][2] =
+extern const char jPiece[4][4][2] =
 {
 	{
 		{-1,0},
@@ -154,7 +154,7 @@ extern const int jPiece[4][4][2] =
 	}
 };
 
-extern const int zPiece[4][4][2] =
+extern const char zPiece[4][4][2] =
 {
 	{
 		{-1,0},
@@ -182,7 +182,7 @@ extern const int zPiece[4][4][2] =
 	}
 };
 
-extern const int tPiece[4][4][2] =
+extern const char tPiece[4][4][2] =
 {
 	{
 		{-1,0},
@@ -210,7 +210,7 @@ extern const int tPiece[4][4][2] =
 	}
 };
 
-extern const int oPiece[4][4][2] =
+extern const char oPiece[4][4][2] =
 {
 	{
 		{-1,0},
@@ -238,7 +238,7 @@ extern const int oPiece[4][4][2] =
 	}
 };
 
-extern const int lPiece[4][4][2] =
+extern const char lPiece[4][4][2] =
 {
 	{
 		{-1,1},

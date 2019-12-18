@@ -1,4 +1,9 @@
 #include <Screen.h>
+char(*currentPiecePtr)[4][4][2];
+char pieceRotation;
+char pieceX;
+char pieceY;
+
 
 int LoadImages(SDL_Renderer* renderer)
 {
