@@ -58,7 +58,7 @@ int PieceWait()
 			char curX = *currentPiecePtr[pieceRotation][i][0]+pieceX;
 			char curY = *currentPiecePtr[pieceRotation][i][1]+pieceY;
 
-			if (blockGrid[curY+1][curX]!=PIECE_NONE||curY==19)
+			if (blockGrid[curY+1][curX]!=PIECE_NONE||curY>18)
 			{
 				goto PieceWait_For_Break;
 			}
@@ -75,4 +75,141 @@ int PieceWait()
 		}
 	}
 	PieceWait_If_Break:
+}
+
+int PieceRotate(bool cw)
+{
+	bool fail = false;
+	char pieceRotationTemp = pieceRotation;
+	char pieceXTemp = pieceX;
+	char pieceYTemp = pieceY;
+	if (cw)
+	{
+		if (pieceRotation < 3)
+		{
+			pieceRotation++;
+		}
+		else
+		{
+			pieceRotation = 0;
+		}
+	}
+	else
+	{
+		if (pieceRotation > 0)
+		{
+			pieceRotation--;
+		}
+		else
+		{
+			pieceRotation = 3;
+		}
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			char curX = *currentPiecePtr[pieceRotation][j][0] + pieceX;
+			char curY = *currentPiecePtr[pieceRotation][j][1] + pieceY;
+			if (blockGrid[curY][curX] != PIECE_NONE || pieceX<0)
+			{
+				pieceX++;
+			}
+		}
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		char curX = *currentPiecePtr[pieceRotation][i][0] + pieceX;
+		char curY = *currentPiecePtr[pieceRotation][i][1] + pieceY;
+		if (blockGrid[curY][curX] != PIECE_NONE || pieceX < 0)
+		{
+			fail = true;
+		}
+	}
+	if (!fail)
+	{
+		return;
+	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			char curX = *currentPiecePtr[pieceRotation][j][0] + pieceX;
+			char curY = *currentPiecePtr[pieceRotation][j][1] + pieceY;
+			if (blockGrid[curY][curX] != PIECE_NONE || pieceX>9)
+			{
+				pieceX--;
+			}
+		}
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		char curX = *currentPiecePtr[pieceRotation][i][0] + pieceX;
+		char curY = *currentPiecePtr[pieceRotation][i][1] + pieceY;
+		if (blockGrid[curY][curX] != PIECE_NONE || pieceX > 9)
+		{
+			fail = true;
+		}
+	}
+	if (!fail)
+	{
+		return;
+	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			char curX = *currentPiecePtr[pieceRotation][j][0] + pieceX;
+			char curY = *currentPiecePtr[pieceRotation][j][1] + pieceY;
+			if (blockGrid[curY][curX] != PIECE_NONE)
+			{
+				pieceY++;
+			}
+		}
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		char curX = *currentPiecePtr[pieceRotation][i][0] + pieceX;
+		char curY = *currentPiecePtr[pieceRotation][i][1] + pieceY;
+		if (blockGrid[curY][curX] != PIECE_NONE)
+		{
+			fail = true;
+		}
+	}
+	if (!fail)
+	{
+		return;
+	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			char curX = *currentPiecePtr[pieceRotation][j][0] + pieceX;
+			char curY = *currentPiecePtr[pieceRotation][j][1] + pieceY;
+			if (blockGrid[curY][curX] != PIECE_NONE || curY > 19)
+			{
+				pieceY--;
+			}
+		}
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		char curX = *currentPiecePtr[pieceRotation][i][0] + pieceX;
+		char curY = *currentPiecePtr[pieceRotation][i][1] + pieceY;
+		if (blockGrid[curY][curX] != PIECE_NONE || curY > 19)
+		{
+			fail = true;
+		}
+	}
+	if (!fail)
+	{
+		return;
+	}
+
+	pieceRotation = pieceRotationTemp;
+	pieceX = pieceXTemp;
+	pieceY = pieceYTemp;
 }
