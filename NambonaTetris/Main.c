@@ -1,32 +1,32 @@
 #include <Main.h>
 
 SDL_Event event;
-char nextPiece;
-char currentPiece;
-char(*currentPiecePtr)[4][4][2];
-char pieceRotation;
-char pieceX;
-char pieceY;
-const short width;
-const short height;
-const char mapWidth;
-const char mapHeight;
-const char tileSize;
-const short screenOffsetX;
-const short screenOffsetY;
+int nextPiece;
+int currentPiece;
+int(*currentPiecePtr)[4][4][2];
+int pieceRotation;
+int pieceX;
+int pieceY;
+const int width;
+const int height;
+const int mapWidth;
+const int mapHeight;
+const int tileSize;
+const int screenOffsetX;
+const int screenOffsetY;
 float deltaTime;
 bool keyPress[6];
 bool keyHeld[6];
-char blockGrid[21][10];
-const char iPiece[4][4][2];
-const char sPiece[4][4][2];
-const char jPiece[4][4][2];
-const char zPiece[4][4][2];
-const char tPiece[4][4][2];
-const char oPiece[4][4][2];
-const char lPiece[4][4][2];
+int blockGrid[21][10];
+const int iPiece[4][4][2];
+const int sPiece[4][4][2];
+const int jPiece[4][4][2];
+const int zPiece[4][4][2];
+const int tPiece[4][4][2];
+const int oPiece[4][4][2];
+const int lPiece[4][4][2];
 
-int main(int argc, char **argv)
+int main(int argc, int **argv)
 {
 	SDL_Init(SDL_INIT_VIDEO);
 	SDL_Window* window = SDL_CreateWindow("Nambona's Tetris", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOWEVENT);
@@ -132,7 +132,7 @@ int GetInput()
 
 }
 
-int SetPress(char key)
+int SetPress(int key)
 {
 	if (!keyHeld[key])
 	{
@@ -179,7 +179,8 @@ int ScreenDraw(SDL_Renderer* renderer, SDL_Texture* canvas)
 				pieceDest.x = (j * tileSize) + screenOffsetX;
 				pieceDest.y = (j * tileSize) + screenOffsetY;
 
-				SDL_RenderCopy(renderer, pieceTile, &pieceTileSrc, &pieceDest);
+				SDL_RenderDrawRect(renderer, &pieceDest);
+				//SDL_RenderCopy(renderer, pieceTile, &pieceTileSrc, &pieceDest);
 			}
 		}
 	}
@@ -191,8 +192,11 @@ int ScreenDraw(SDL_Renderer* renderer, SDL_Texture* canvas)
 		pieceDest.w = tileSize;
 		pieceDest.h = tileSize;
 
-		pieceDest.x = (((char)&currentPiecePtr[pieceRotation][i][0] + pieceX) * tileSize) + screenOffsetX;
-		pieceDest.y = (((char)&currentPiecePtr[pieceRotation][i][1] + pieceY) * tileSize) + screenOffsetY;
+		pieceDest.x = (((int)*currentPiecePtr[pieceRotation][i][0] + pieceX) * tileSize) + screenOffsetX;
+		pieceDest.y = (((int)*currentPiecePtr[pieceRotation][i][1] + pieceY) * tileSize) + screenOffsetY;
+
+		SDL_RenderDrawRect(renderer, &pieceDest);
+		//SDL_RenderCopy(renderer, pieceTile, &pieceTileSrc, &pieceDest);
 	}
 
 	return 0;
@@ -266,8 +270,8 @@ int PieceWait()
 		fallTimer = 0;
 		for (int i = 0; i < 4; i++)
 		{
-			char curX = *currentPiecePtr[pieceRotation][i][0] + pieceX;
-			char curY = *currentPiecePtr[pieceRotation][i][1] + pieceY;
+			int curX = *currentPiecePtr[pieceRotation][i][0] + pieceX;
+			int curY = *currentPiecePtr[pieceRotation][i][1] + pieceY;
 
 			if (blockGrid[curY + 1][curX] != PIECE_NONE || curY > 18)
 			{
@@ -279,8 +283,8 @@ int PieceWait()
 	PieceWait_For_Break1:
 		for (int i = 0; i < 4; i++)
 		{
-			char curX = *currentPiecePtr[pieceRotation][i][0] + pieceX;
-			char curY = *currentPiecePtr[pieceRotation][i][1] + pieceY;
+			int curX = *currentPiecePtr[pieceRotation][i][0] + pieceX;
+			int curY = *currentPiecePtr[pieceRotation][i][1] + pieceY;
 
 			blockGrid[curY][curX] = currentPiece;
 		}
@@ -302,7 +306,7 @@ int PieceWait()
 				}
 				if (i > 0)
 				{
-					for (int j = i; j >= 0; j++)
+					for (int j = 1; j < i; j++)
 					{
 						for (int k = 0; k < 10; k++)
 						{
@@ -321,9 +325,9 @@ PieceWait_If_Break:
 int PieceRotate(bool cw)
 {
 	bool fail = false;
-	char pieceRotationTemp = pieceRotation;
-	char pieceXTemp = pieceX;
-	char pieceYTemp = pieceY;
+	int pieceRotationTemp = pieceRotation;
+	int pieceXTemp = pieceX;
+	int pieceYTemp = pieceY;
 	if (cw)
 	{
 		if (pieceRotation < 3)
@@ -350,8 +354,8 @@ int PieceRotate(bool cw)
 	{
 		for (int j = 0; j < 4; j++)
 		{
-			char curX = *currentPiecePtr[pieceRotation][j][0] + pieceX;
-			char curY = *currentPiecePtr[pieceRotation][j][1] + pieceY;
+			int curX = *currentPiecePtr[pieceRotation][j][0] + pieceX;
+			int curY = *currentPiecePtr[pieceRotation][j][1] + pieceY;
 			if (blockGrid[curY][curX] != PIECE_NONE || pieceX < 0)
 			{
 				pieceX++;
@@ -360,8 +364,8 @@ int PieceRotate(bool cw)
 	}
 	for (int i = 0; i < 4; i++)
 	{
-		char curX = *currentPiecePtr[pieceRotation][i][0] + pieceX;
-		char curY = *currentPiecePtr[pieceRotation][i][1] + pieceY;
+		int curX = *currentPiecePtr[pieceRotation][i][0] + pieceX;
+		int curY = *currentPiecePtr[pieceRotation][i][1] + pieceY;
 		if (blockGrid[curY][curX] != PIECE_NONE || pieceX < 0)
 		{
 			fail = true;
@@ -376,8 +380,8 @@ int PieceRotate(bool cw)
 	{
 		for (int j = 0; j < 4; j++)
 		{
-			char curX = *currentPiecePtr[pieceRotation][j][0] + pieceX;
-			char curY = *currentPiecePtr[pieceRotation][j][1] + pieceY;
+			int curX = *currentPiecePtr[pieceRotation][j][0] + pieceX;
+			int curY = *currentPiecePtr[pieceRotation][j][1] + pieceY;
 			if (blockGrid[curY][curX] != PIECE_NONE || pieceX > 9)
 			{
 				pieceX--;
@@ -386,8 +390,8 @@ int PieceRotate(bool cw)
 	}
 	for (int i = 0; i < 4; i++)
 	{
-		char curX = *currentPiecePtr[pieceRotation][i][0] + pieceX;
-		char curY = *currentPiecePtr[pieceRotation][i][1] + pieceY;
+		int curX = *currentPiecePtr[pieceRotation][i][0] + pieceX;
+		int curY = *currentPiecePtr[pieceRotation][i][1] + pieceY;
 		if (blockGrid[curY][curX] != PIECE_NONE || pieceX > 9)
 		{
 			fail = true;
@@ -402,8 +406,8 @@ int PieceRotate(bool cw)
 	{
 		for (int j = 0; j < 4; j++)
 		{
-			char curX = *currentPiecePtr[pieceRotation][j][0] + pieceX;
-			char curY = *currentPiecePtr[pieceRotation][j][1] + pieceY;
+			int curX = *currentPiecePtr[pieceRotation][j][0] + pieceX;
+			int curY = *currentPiecePtr[pieceRotation][j][1] + pieceY;
 			if (blockGrid[curY][curX] != PIECE_NONE)
 			{
 				pieceY++;
@@ -412,8 +416,8 @@ int PieceRotate(bool cw)
 	}
 	for (int i = 0; i < 4; i++)
 	{
-		char curX = *currentPiecePtr[pieceRotation][i][0] + pieceX;
-		char curY = *currentPiecePtr[pieceRotation][i][1] + pieceY;
+		int curX = *currentPiecePtr[pieceRotation][i][0] + pieceX;
+		int curY = *currentPiecePtr[pieceRotation][i][1] + pieceY;
 		if (blockGrid[curY][curX] != PIECE_NONE)
 		{
 			fail = true;
@@ -428,8 +432,8 @@ int PieceRotate(bool cw)
 	{
 		for (int j = 0; j < 4; j++)
 		{
-			char curX = *currentPiecePtr[pieceRotation][j][0] + pieceX;
-			char curY = *currentPiecePtr[pieceRotation][j][1] + pieceY;
+			int curX = *currentPiecePtr[pieceRotation][j][0] + pieceX;
+			int curY = *currentPiecePtr[pieceRotation][j][1] + pieceY;
 			if (blockGrid[curY][curX] != PIECE_NONE || curY > 19)
 			{
 				pieceY--;
@@ -438,8 +442,8 @@ int PieceRotate(bool cw)
 	}
 	for (int i = 0; i < 4; i++)
 	{
-		char curX = *currentPiecePtr[pieceRotation][i][0] + pieceX;
-		char curY = *currentPiecePtr[pieceRotation][i][1] + pieceY;
+		int curX = *currentPiecePtr[pieceRotation][i][0] + pieceX;
+		int curY = *currentPiecePtr[pieceRotation][i][1] + pieceY;
 		if (blockGrid[curY][curX] != PIECE_NONE || curY > 19)
 		{
 			fail = true;
@@ -458,8 +462,8 @@ int PieceRotate(bool cw)
 int PieceMove(bool dir)
 {
 	bool fail = false;
-	char pieceXTemp = pieceX;
-	char pieceYTemp = pieceY;
+	int pieceXTemp = pieceX;
+	int pieceYTemp = pieceY;
 
 	if (dir)
 	{
@@ -474,8 +478,8 @@ int PieceMove(bool dir)
 	{
 		for (int j = 0; j < 4; j++)
 		{
-			char curX = *currentPiecePtr[pieceRotation][j][0] + pieceX;
-			char curY = *currentPiecePtr[pieceRotation][j][1] + pieceY;
+			int curX = *currentPiecePtr[pieceRotation][j][0] + pieceX;
+			int curY = *currentPiecePtr[pieceRotation][j][1] + pieceY;
 			if (blockGrid[curY][curX] != PIECE_NONE || pieceX < 0)
 			{
 				pieceX++;
@@ -484,8 +488,8 @@ int PieceMove(bool dir)
 	}
 	for (int i = 0; i < 4; i++)
 	{
-		char curX = *currentPiecePtr[pieceRotation][i][0] + pieceX;
-		char curY = *currentPiecePtr[pieceRotation][i][1] + pieceY;
+		int curX = *currentPiecePtr[pieceRotation][i][0] + pieceX;
+		int curY = *currentPiecePtr[pieceRotation][i][1] + pieceY;
 		if (blockGrid[curY][curX] != PIECE_NONE || pieceX < 0)
 		{
 			fail = true;
@@ -500,8 +504,8 @@ int PieceMove(bool dir)
 	{
 		for (int j = 0; j < 4; j++)
 		{
-			char curX = *currentPiecePtr[pieceRotation][j][0] + pieceX;
-			char curY = *currentPiecePtr[pieceRotation][j][1] + pieceY;
+			int curX = *currentPiecePtr[pieceRotation][j][0] + pieceX;
+			int curY = *currentPiecePtr[pieceRotation][j][1] + pieceY;
 			if (blockGrid[curY][curX] != PIECE_NONE || pieceX > 9)
 			{
 				pieceX--;
@@ -510,8 +514,8 @@ int PieceMove(bool dir)
 	}
 	for (int i = 0; i < 4; i++)
 	{
-		char curX = *currentPiecePtr[pieceRotation][i][0] + pieceX;
-		char curY = *currentPiecePtr[pieceRotation][i][1] + pieceY;
+		int curX = *currentPiecePtr[pieceRotation][i][0] + pieceX;
+		int curY = *currentPiecePtr[pieceRotation][i][1] + pieceY;
 		if (blockGrid[curY][curX] != PIECE_NONE || pieceX > 9)
 		{
 			fail = true;
@@ -526,8 +530,8 @@ int PieceMove(bool dir)
 	{
 		for (int j = 0; j < 4; j++)
 		{
-			char curX = *currentPiecePtr[pieceRotation][j][0] + pieceX;
-			char curY = *currentPiecePtr[pieceRotation][j][1] + pieceY;
+			int curX = *currentPiecePtr[pieceRotation][j][0] + pieceX;
+			int curY = *currentPiecePtr[pieceRotation][j][1] + pieceY;
 			if (blockGrid[curY][curX] != PIECE_NONE)
 			{
 				pieceY++;
@@ -536,8 +540,8 @@ int PieceMove(bool dir)
 	}
 	for (int i = 0; i < 4; i++)
 	{
-		char curX = *currentPiecePtr[pieceRotation][i][0] + pieceX;
-		char curY = *currentPiecePtr[pieceRotation][i][1] + pieceY;
+		int curX = *currentPiecePtr[pieceRotation][i][0] + pieceX;
+		int curY = *currentPiecePtr[pieceRotation][i][1] + pieceY;
 		if (blockGrid[curY][curX] != PIECE_NONE)
 		{
 			fail = true;

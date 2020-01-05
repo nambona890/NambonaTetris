@@ -9,33 +9,33 @@
 
 #define TAU (M_PI * 2)
 
-const short width = 1024;
-const short height = 768;
+const int width = 1024;
+const int height = 768;
 
-const char mapWidth = 10;
-const char mapHeight = 20;
+const int mapWidth = 10;
+const int mapHeight = 20;
 
-const char tileSize = 32;
+const int tileSize = 32;
 
-const short screenOffsetX = 352;
-const short screenOffsetY = 40;
+const int screenOffsetX = 352;
+const int screenOffsetY = 40;
 
 float deltaTime = 0.03;
 
 SDL_Event event;
 
-char nextPiece;
-char currentPiece;
-char(*currentPiecePtr)[4][4][2];
+int nextPiece;
+int currentPiece;
+int(*currentPiecePtr)[4][4][2];
 
-char pieceRotation;
-char pieceX;
-char pieceY;
+int pieceRotation;
+int pieceX;
+int pieceY;
 
 bool keyPress[6] = { 0,0,0,0,0,0 };
 bool keyHeld[6] = { 0,0,0,0,0,0 };
 
-char blockGrid[21][10] = {
+int blockGrid[21][10] = {
 	{0,0,0,0,0,0,0,0,0,0},
 	{0,0,0,0,0,0,0,0,0,0},
 	{0,0,0,0,0,0,0,0,0,0},
@@ -69,7 +69,7 @@ char blockGrid[21][10] = {
 #define PIECE_L 7
 
 
-const char iPiece[4][4][2] =
+const int iPiece[4][4][2] =
 {
 	{
 		{-2,0},
@@ -97,7 +97,7 @@ const char iPiece[4][4][2] =
 	}
 };
 
-const char sPiece[4][4][2] =
+const int sPiece[4][4][2] =
 {
 	{
 		{-1,1},
@@ -125,7 +125,7 @@ const char sPiece[4][4][2] =
 	}
 };
 
-const char jPiece[4][4][2] =
+const int jPiece[4][4][2] =
 {
 	{
 		{-1,0},
@@ -153,7 +153,7 @@ const char jPiece[4][4][2] =
 	}
 };
 
-const char zPiece[4][4][2] =
+const int zPiece[4][4][2] =
 {
 	{
 		{-1,0},
@@ -181,7 +181,7 @@ const char zPiece[4][4][2] =
 	}
 };
 
-extern const char tPiece[4][4][2] =
+extern const int tPiece[4][4][2] =
 {
 	{
 		{-1,0},
@@ -209,7 +209,7 @@ extern const char tPiece[4][4][2] =
 	}
 };
 
-const char oPiece[4][4][2] =
+const int oPiece[4][4][2] =
 {
 	{
 		{-1,0},
@@ -237,7 +237,7 @@ const char oPiece[4][4][2] =
 	}
 };
 
-const char lPiece[4][4][2] =
+const int lPiece[4][4][2] =
 {
 	{
 		{-1,1},
