@@ -65,13 +65,13 @@ int mod(int a, int b)
 	return r < 0 ? r + b : r;
 }
 
-int GameLogic()
+void GameLogic()
 {
 	PieceWait();
 	GetInput();
 }
 
-int GetInput()
+void GetInput()
 {
 	while (SDL_PollEvent(&event))
 	{
@@ -132,17 +132,17 @@ int GetInput()
 
 }
 
-int SetPress(int key)
+void SetPress(int key)
 {
 	if (!keyHeld[key])
 	{
-		keyPress[key] == 1;
+		keyPress[key] = 1;
 	}
 	else
 	{
-		keyPress[key] == 0;
+		keyPress[key] = 0;
 	}
-	keyHeld[key] == 1;
+	keyHeld[key] = 1;
 }
 
 
@@ -150,7 +150,7 @@ int SetPress(int key)
 
 
 
-int LoadImages(SDL_Renderer* renderer)
+void LoadImages(SDL_Renderer* renderer)
 {
 	pieceTile = IMG_LoadTexture(renderer, "Images/Piece.png");
 	pieceTileSrc.x = 0;
@@ -159,7 +159,7 @@ int LoadImages(SDL_Renderer* renderer)
 	pieceTileSrc.h = tileSize;
 }
 
-int ScreenDraw(SDL_Renderer* renderer, SDL_Texture* canvas)
+void ScreenDraw(SDL_Renderer* renderer, SDL_Texture* canvas)
 {
 	SDL_SetRenderTarget(renderer, canvas);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -199,17 +199,15 @@ int ScreenDraw(SDL_Renderer* renderer, SDL_Texture* canvas)
 		//SDL_RenderCopy(renderer, pieceTile, &pieceTileSrc, &pieceDest);
 	}
 
-	return 0;
 }
 
-int ScreenRender(SDL_Renderer* renderer, SDL_Texture* canvas)
+void ScreenRender(SDL_Renderer* renderer, SDL_Texture* canvas)
 {
 	SDL_SetRenderTarget(renderer, NULL);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
 	SDL_RenderCopy(renderer, canvas, NULL, NULL);
 	SDL_RenderPresent(renderer);
-	return 0;
 }
 
 
@@ -218,7 +216,7 @@ int ScreenRender(SDL_Renderer* renderer, SDL_Texture* canvas)
 
 
 
-int PieceInit()
+void PieceInit()
 {
 	time_t t;
 	srand((unsigned)time(&t));
@@ -226,7 +224,7 @@ int PieceInit()
 	PieceDrop();
 }
 
-int PieceDrop()
+void PieceDrop()
 {
 	currentPiece = nextPiece;
 	nextPiece = rand() % 7;
@@ -262,7 +260,7 @@ int PieceDrop()
 	}
 }
 
-int PieceWait()
+void PieceWait()
 {
 	fallTimer += deltaTime;
 	if (fallTimer > fallWait)
@@ -322,7 +320,7 @@ PieceWait_If_Break:
 	return;
 }
 
-int PieceRotate(bool cw)
+void PieceRotate(bool cw)
 {
 	bool fail = false;
 	int pieceRotationTemp = pieceRotation;
@@ -459,7 +457,7 @@ int PieceRotate(bool cw)
 	pieceY = pieceYTemp;
 }
 
-int PieceMove(bool dir)
+void PieceMove(bool dir)
 {
 	bool fail = false;
 	int pieceXTemp = pieceX;
