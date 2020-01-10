@@ -271,22 +271,6 @@ SDL_Rect pieceTileSrc;
 float fallTimer = 0;
 float fallWait = 0.5;
 
-void PieceInit();
-
-void PieceDrop();
-
-void PieceWait();
-
-void PieceRotate(bool cw);
-
-void PieceMove(bool dir);
-
-void LoadImages(SDL_Renderer* renderer);
-
-void ScreenDraw(SDL_Renderer* renderer, SDL_Texture* canvas);
-
-void ScreenRender(SDL_Renderer* renderer, SDL_Texture* canvas);
-
 int mod(int a, int b);
 
 void GameLogic();
@@ -304,6 +288,8 @@ void ScreenDraw(SDL_Renderer* renderer, SDL_Texture* canvas);
 
 void ScreenRender(SDL_Renderer* renderer, SDL_Texture* canvas);
 
+
+void PieceDrop();
 
 void PieceInit();
 
